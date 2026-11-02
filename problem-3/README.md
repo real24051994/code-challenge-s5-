@@ -1,16 +1,17 @@
-# Problem 3
+# Problem 3 — Wallet page code review
 
-## Main issues
+## Issues in the original snippet
 
-- `lhsPriority` is undefined; the variable declared in the filter is `balancePriority`.
-- The filter condition is reversed: it keeps balances `<= 0` and excludes positive balances.
-- `WalletBalance` omits `blockchain`, even though the code uses it. Using `any` in `getPriority` also weakens type checking.
-- `getPriority` is called repeatedly during sorting. Compute each priority once, then sort by it.
-- The comparator does not explicitly return `0` when priorities are equal.
-- `useMemo` depends on `prices`, although prices are not used for sorting, causing unnecessary recalculation.
-- `formattedBalances` is created but ignored; `rows` reads `formatted` from unformatted data. `toFixed()` without arguments also rounds to an integer.
-- `key={index}` is unstable when the list changes order, and `children` is extracted but never rendered.
+- `lhsPriority` is undefined; the declared variable is `balancePriority`.
+- The filter condition is reversed: it keeps zero/negative balances and drops positive ones.
+- `WalletBalance` omits `blockchain`; `getPriority` also uses `any`.
+- As shown, `React`, `BoxProps`, `WalletRow`, `classes`, `useWalletBalances`, and `usePrices` are not imported or declared.
+- `getPriority` is recreated each render and called repeatedly while sorting. The comparator also lacks an explicit equal-priority result.
+- `prices` is an unnecessary `useMemo` dependency. `formattedBalances` is unused while `rows` reads `formatted` from unformatted data; `toFixed()` without arguments also rounds to an integer.
+- The index key is unstable, and `children` is destructured but never rendered.
 
 ## Refactor
 
-The refactored code is in [WalletPage.tsx](./WalletPage.tsx). It keeps positive balances on supported blockchains, computes priorities once, uses the correct `useMemo` dependency, preserves decimal places, and assigns stable keys.
+The standalone component is in [src/WalletPage.tsx](./src/WalletPage.tsx). It accepts balances and prices as props, uses native `div` props, filters positive balances on supported chains, computes each priority once, and renders children. Types and the row component live in separate files under `src/`.
+
+Run `npm install` followed by `npm run typecheck` to check the standalone component.
