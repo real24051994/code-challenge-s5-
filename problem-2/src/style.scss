@@ -35,11 +35,17 @@ button, input { font: inherit; }
 button { color: inherit; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 
-.app-shell { min-height: 100vh; }
+.app-shell {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
 
 .app-header {
   width: min(1160px, calc(100% - 56px));
   height: 76px;
+  flex: none;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -94,7 +100,11 @@ a { color: inherit; text-decoration: none; }
 
 .swap-page {
   width: min(460px, calc(100% - 32px));
-  margin: 64px auto 56px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px auto 24px;
 }
 
 .swap-page__heading {
@@ -233,7 +243,7 @@ a { color: inherit; text-decoration: none; }
     width: 30px;
     height: 30px;
     display: block;
-    margin: -1px auto;
+    margin: 6px auto;
     border: 1px solid $border;
     border-radius: 50%;
     background: $surface;
@@ -407,8 +417,24 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 480px) {
   .app-header { width: calc(100% - 32px); height: 64px; }
-  .swap-page { margin-top: 40px; }
+  .swap-page { flex: initial; justify-content: flex-start; margin: 34px auto 40px; }
   .swap-card { padding: 17px; }
   .swap-card .swap-card__field .swap-card__field-main input,
   .swap-card .swap-card__field .swap-card__field-main .swap-card__output { font-size: 22px; }
+}
+
+@media (min-width: 481px) and (max-height: 850px) {
+  .swap-page { justify-content: flex-start; margin-top: 16px; margin-bottom: 16px; }
+  .swap-page__heading { margin-bottom: 14px; }
+  .swap-page__heading h1 { margin-top: 5px; font-size: 30px; }
+  .swap-card { padding: 18px; }
+  .swap-card .swap-card__header { margin-bottom: 13px; }
+  .swap-card .swap-card__field { padding: 11px 13px 9px; }
+  .swap-card .swap-card__field .swap-card__field-main { margin-top: 6px; }
+  .swap-card .swap-card__field .swap-card__field-main input,
+  .swap-card .swap-card__field .swap-card__field-main .swap-card__output { font-size: 25px; }
+  .swap-card .swap-card__quote { margin: 8px 0 11px; padding: 8px 12px; }
+  .swap-card .swap-card__quote-row { min-height: 25px; }
+  .swap-card .swap-card__submit { min-height: 44px; }
+  .swap-card .swap-card__footnote { margin-top: 9px; }
 }
