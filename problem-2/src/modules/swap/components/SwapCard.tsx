@@ -16,8 +16,8 @@ export default function SwapCard() {
   const {
     fromToken, toToken, fromSymbol, toSymbol, amount, setAmount, fromBalance,
     numericAmount, rate, receiveAmount, hasValidAmount, overBalance, canSubmit,
-    slippage, notice, isSubmitting, openPicker, switchTokens, setMaxAmount,
-    cycleSlippage, submitSwap, priceStatus, setNotice,
+    notice, isSubmitting, openPicker, switchTokens, setMaxAmount,
+    submitSwap, priceStatus, setNotice,
   } = useSwap();
   const { isConnected } = useWallet();
 
@@ -64,8 +64,6 @@ export default function SwapCard() {
 
       <div className="swap-card__quote">
         <div className="swap-card__quote-row"><span>Rate</span><span>1 {fromSymbol} ≈ {number(rate)} {toSymbol}</span></div>
-        <div className="swap-card__quote-row"><span>Swap fee</span><span>0.3%</span></div>
-        <div className="swap-card__quote-row"><span>Slippage tolerance</span><button className="swap-card__slippage" onClick={cycleSlippage}>{slippage}</button></div>
       </div>
 
       {overBalance && <p className="swap-card__error" role="alert">Amount exceeds your available balance.</p>}

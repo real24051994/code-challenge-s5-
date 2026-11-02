@@ -271,14 +271,6 @@ a { color: inherit; text-decoration: none; }
     font-size: 11px;
 
     > span:last-child { color: #38413b; text-align: right; }
-    .swap-card__slippage {
-      padding: 3px 7px;
-      border: 1px solid $border;
-      border-radius: 5px;
-      background: $surface;
-      color: #38413b;
-      font-size: 10px;
-    }
   }
 
   .swap-card__submit {

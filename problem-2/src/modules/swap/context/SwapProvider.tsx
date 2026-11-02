@@ -29,7 +29,6 @@ interface SwapContextValue {
   hasValidAmount: boolean;
   overBalance: boolean;
   canSubmit: boolean;
-  slippage: string;
   pickerSide: PickerSide;
   searchQuery: string;
   notice: string;
@@ -43,13 +42,11 @@ interface SwapContextValue {
   chooseToken: (symbol: string) => void;
   switchTokens: () => void;
   setMaxAmount: () => void;
-  cycleSlippage: () => void;
   submitSwap: () => Promise<void>;
   dismissConfirmation: () => void;
 }
 
 const SwapContext = createContext<SwapContextValue | undefined>(undefined);
-const SWAP_FEE = 0.003;
 const DEMO_BALANCES: Record<string, number> = { ETH: 2.48, USDC: 4280, WBTC: 0.08, ATOM: 1240.58 };
 const balanceFor = (symbol: string): number => DEMO_BALANCES[symbol.toUpperCase()] ?? 1240.58;
 
@@ -59,7 +56,6 @@ export function SwapProvider({ children }: PropsWithChildren) {
   const [fromSymbol, setFromSymbol] = useState('ETH');
   const [toSymbol, setToSymbol] = useState('USDC');
   const [amount, setAmount] = useState('');
-  const [slippage, setSlippage] = useState('0.5%');
   const [pickerSide, setPickerSide] = useState<PickerSide>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [notice, setNotice] = useState('');
@@ -94,8 +90,8 @@ export function SwapProvider({ children }: PropsWithChildren) {
   const fromBalance = balanceFor(fromSymbol);
   const overBalance = numericAmount > fromBalance;
   const rate = toToken.price > 0 ? fromToken.price / toToken.price : 0;
-  const grossReceiveAmount = numericAmount * rate * (1 - SWAP_FEE);
-  const receiveAmount = Number.isFinite(grossReceiveAmount) ? grossReceiveAmount : 0;
+  const estimatedReceiveAmount = numericAmount * rate;
+  const receiveAmount = Number.isFinite(estimatedReceiveAmount) ? estimatedReceiveAmount : 0;
   const hasValidAmount = numericAmount > 0 && Number.isFinite(numericAmount);
   const canSubmit = hasValidAmount && !overBalance && fromSymbol !== toSymbol && !isSubmitting;
 
@@ -128,12 +124,6 @@ export function SwapProvider({ children }: PropsWithChildren) {
     setNotice('');
   }, [fromBalance]);
 
-  const cycleSlippage = useCallback(() => {
-    const next = slippage === '0.5%' ? '1.0%' : slippage === '1.0%' ? '0.1%' : '0.5%';
-    setSlippage(next);
-    setNotice(`Slippage tolerance set to ${next}.`);
-  }, [slippage]);
-
   const submitSwap = useCallback(async () => {
     if (!canSubmit) return;
     setNotice('');
@@ -163,7 +153,6 @@ export function SwapProvider({ children }: PropsWithChildren) {
     hasValidAmount,
     overBalance,
     canSubmit,
-    slippage,
     pickerSide,
     searchQuery,
     notice,
@@ -177,15 +166,14 @@ export function SwapProvider({ children }: PropsWithChildren) {
     chooseToken,
     switchTokens,
     setMaxAmount,
-    cycleSlippage,
     submitSwap,
     dismissConfirmation,
   }), [
     tokens, priceStatus, fromToken, toToken, fromSymbol, toSymbol, amount,
     numericAmount, fromBalance, rate, receiveAmount, hasValidAmount,
-    overBalance, canSubmit, slippage, pickerSide, searchQuery, notice,
+    overBalance, canSubmit, pickerSide, searchQuery, notice,
     isSubmitting, isConfirmed, openPicker, closePicker, chooseToken,
-    switchTokens, setMaxAmount, cycleSlippage, submitSwap, dismissConfirmation,
+    switchTokens, setMaxAmount, submitSwap, dismissConfirmation,
   ]);
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
