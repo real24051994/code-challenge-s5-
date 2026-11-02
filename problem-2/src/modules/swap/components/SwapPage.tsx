@@ -1,7 +1,7 @@
-import { useWallet } from '../../wallet/hooks/useWallet';
-import SwapCard from './SwapCard';
-import TokenPickerModal from './TokenPickerModal';
-import SwapConfirmationModal from './SwapConfirmationModal';
+import { useWallet } from '@/modules/wallet/hooks/useWallet';
+import SwapCard from '@/modules/swap/components/SwapCard';
+import TokenPickerModal from '@/modules/swap/components/TokenPickerModal';
+import SwapConfirmationModal from '@/modules/swap/components/SwapConfirmationModal';
 
 export default function SwapPage() {
   const { isConnected, address, toggleConnection } = useWallet();

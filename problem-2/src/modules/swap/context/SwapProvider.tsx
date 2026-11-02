@@ -9,7 +9,7 @@ import {
   type PropsWithChildren,
   type SetStateAction,
 } from 'react';
-import { fallbackTokens, fetchTokenPrices, type Token } from '../api/pricesApi';
+import { fallbackTokens, fetchTokenPrices, type Token } from '@/modules/swap/api/pricesApi';
 
 export type PriceStatus = 'loading' | 'live' | 'fallback';
 export type PickerSide = 'from' | 'to' | null;

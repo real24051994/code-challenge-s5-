@@ -1,4 +1,4 @@
-import { useWalletContext } from '../context/WalletProvider';
+import { useWalletContext } from '@/modules/wallet/context/WalletProvider';
 
 export function useWallet() {
   return useWalletContext();

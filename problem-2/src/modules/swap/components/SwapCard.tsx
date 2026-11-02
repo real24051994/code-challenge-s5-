@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
-import { useSwap } from '../hooks/useSwap';
-import { useWallet } from '../../wallet/hooks/useWallet';
-import TokenIcon from './TokenIcon';
+import { useSwap } from '@/modules/swap/hooks/useSwap';
+import { useWallet } from '@/modules/wallet/hooks/useWallet';
+import TokenIcon from '@/modules/swap/components/TokenIcon';
 
 const number = (value: number, max = 6): string => {
   if (!Number.isFinite(value)) return '—';

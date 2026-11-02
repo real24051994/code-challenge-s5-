@@ -1,7 +1,7 @@
 import { useEffect, useRef, type MouseEvent } from 'react';
-import { useSwap } from '../hooks/useSwap';
-import { useTokenSearch } from '../hooks/useTokenSearch';
-import TokenIcon from './TokenIcon';
+import { useSwap } from '@/modules/swap/hooks/useSwap';
+import { useTokenSearch } from '@/modules/swap/hooks/useTokenSearch';
+import TokenIcon from '@/modules/swap/components/TokenIcon';
 
 const money = (value: number): string => `$${new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(value)}`;
 

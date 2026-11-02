@@ -1,4 +1,4 @@
-import { useSwap } from '../hooks/useSwap';
+import { useSwap } from '@/modules/swap/hooks/useSwap';
 
 const number = (value: number): string => new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 }).format(value);
 

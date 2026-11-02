@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Token } from '../api/pricesApi';
+import type { Token } from '@/modules/swap/api/pricesApi';
 
 export function useTokenSearch(tokens: Token[], query: string): Token[] {
   return useMemo(() => {
